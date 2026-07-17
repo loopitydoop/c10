@@ -6,7 +6,7 @@
 /*   By: shuwu <shuwu@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 11:10:27 by shuwu             #+#    #+#             */
-/*   Updated: 2026/07/16 14:48:42 by shuwu            ###   ########.fr       */
+/*   Updated: 2026/07/17 12:16:37 by shuwu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,30 @@
 //		specific file
 //	read() returns the number of bytes successfully read.
 
+//	17 Jul 1130hrs: ADD ERROR MESSAGES
 int	sk_strlen(char *str);
 
 int	main(int argc, char **argv)
 {
 	int	fd;
-	char	buf[1];	
+	char	buf[1];
+	int	bytes_read;
 
 	if (argc < 2)
-		return(write(2, "File name missing.",
-			sk_strlen("File name missing.")));
+		return (write(2, "File name missing.\n",
+			sk_strlen("File name missing.\n")));
+	else if (argc > 2)
+		return (write(2, "Too many arguments.\n",
+			sk_strlen("Too many arguments.\n")));
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
-		return (1);
-	while(read(fd, buf, 1) > 0)
+		return (write(2, "Cannot read file.\n",
+			sk_strlen("Cannot read file.\n")));
+	while ((bytes_read = read(fd, buf, 1)) > 0)
 		write(1, buf, 1);
+	if (bytes_read == -1)
+		return (write(2, "Cannot read file.\n",
+			sk_strlen("Cannot read file.\n")));
 	close(fd);
 	return (0);
 }
