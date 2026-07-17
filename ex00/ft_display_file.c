@@ -6,7 +6,7 @@
 /*   By: shuwu <shuwu@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 11:10:27 by shuwu             #+#    #+#             */
-/*   Updated: 2026/07/16 14:32:19 by shuwu            ###   ########.fr       */
+/*   Updated: 2026/07/16 14:48:42 by shuwu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,16 @@
 //		specific file
 //	read() returns the number of bytes successfully read.
 
+int	sk_strlen(char *str);
+
 int	main(int argc, char **argv)
 {
 	int	fd;
 	char	buf[1];	
 
-	(void)argc;
+	if (argc < 2)
+		return(write(2, "File name missing.",
+			sk_strlen("File name missing.")));
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 		return (1);
@@ -45,4 +49,14 @@ int	main(int argc, char **argv)
 		write(1, buf, 1);
 	close(fd);
 	return (0);
+}
+
+int	sk_strlen(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+		i++;
+	return i;
 }
