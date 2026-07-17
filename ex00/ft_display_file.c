@@ -6,7 +6,7 @@
 /*   By: shuwu <shuwu@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 11:10:27 by shuwu             #+#    #+#             */
-/*   Updated: 2026/07/17 13:14:33 by shuwu            ###   ########.fr       */
+/*   Updated: 2026/07/17 13:22:42 by shuwu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,13 @@ int	main(int argc, char **argv)
 	if (fd == -1)
 		return (write(2, "Cannot read file.\n",
 				sk_strlen("Cannot read file.\n")));
-	while (read(fd, buf, 1) > 0)
+	bytes_read = read(fd, buf, 1);
+	while (bytes_read > 0)
+	{
 		write(1, buf, 1);
-	if (read(fd, buf, 1) == -1)
+		bytes_read = read(fd, buf, 1);
+	}
+	if (bytes_read == -1)
 		return (write(2, "Cannot read file.\n",
 				sk_strlen("Cannot read file.\n")));
 	close(fd);
